@@ -27,7 +27,7 @@
       "textColor": "rgb(20, 100, 57) ",
       "backgroundColor": "rgb(211, 237, 223)",
       "status": false,
-      "note": "Need to confirm with Colin if icon/colors are fine for this new content type"
+      "note": "Need to confirm with UX if icon/colors are fine for this new content type"
     },
     {
       "id": "dv_connectors",
@@ -37,7 +37,7 @@
       "textColor": "rgb(21, 92, 186)",
       "backgroundColor": "rgb(234, 242, 253)",
       "status": false,
-      "note": "Need to confirm with Colin if icon/colors are fine for this new content type"
+      "note": "Need to confirm with UX if icon/colors are fine for this new content type"
     },
     {
       "id": "dv_flows",
@@ -67,7 +67,7 @@
       "textColor": "rgb(21, 92, 186)",
       "backgroundColor": "rgb(234, 242, 253)",
       "status": false,
-      "note": "Existing icon doesn't look good. Confirm with Colin"
+      "note": "Existing icon doesn't look good. Confirm with UX"
     },
     {
       "id": "forms",
@@ -113,7 +113,7 @@
       "textColor": "rgb(153, 111, 42)",
       "backgroundColor": "rgb(255, 241, 218)",
       "status": false,
-      "note": "Conflict with DaVinci Node. Changed to yellow colors but need to confirm with Colin"
+      "note": "Conflict with DaVinci Node. Changed to yellow colors but need to confirm with UX"
     },
     {
       "id": "journey_script",
@@ -132,7 +132,7 @@
       "textColor": "rgb(153, 111, 42)",
       "backgroundColor": "rgb(255, 241, 218)",
       "status": false,
-      "note": "Conflict with existingDaVinci Node. Changed to yellow colors but need to confirm with Colin"
+      "note": "Conflict with existingDaVinci Node. Changed to yellow colors but need to confirm with UX"
     },
     {
       "id": "sso_app",
