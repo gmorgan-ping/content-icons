@@ -113,7 +113,7 @@
       "textColor": "rgb(153, 111, 42)",
       "backgroundColor": "rgb(255, 241, 218)",
       "status": false,
-      "note": "Conflict with DaVinci Node. Changed to yellow colors but need to confirm with UX"
+      "note": "Conflict with DaVinci Node. Changed to yellow color as this is what's used inside of Journeys but need to confirm with UX"
     },
     {
       "id": "journey_script",
