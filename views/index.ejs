@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="/public/styles.css" rel="stylesheet">
+
+  <style>
+
+  </style>
+</head>
+
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="text-center mb-5">
+          <h1 class="display-4 fw-bold text-dark mb-3">Marketplace Icons</h1>
+          <p class="lead text-muted">Canonical set of default icons for Marketplace items</p>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <div class="row g-4">
+              <% icons.forEach(function(iconData) { %>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="flip-card" onclick="<%= iconData.note ? 'flipCard(this)' : '' %>"
+                    style="cursor: <%= iconData.note ? 'pointer' : 'default' %>;">
+                    <div class="flip-card-inner">
+                      <!-- Front -->
+                      <div class="flip-card-front text-center p-3 rounded bg-white border position-relative">
+                        <% if (iconData.note) { %>
+                          <div class="position-absolute" style="top: 8px; left: 8px;" title="Click to view notes">
+                            <i class="material-icons-outlined text-info" style="font-size: 14px;">info</i>
+                          </div>
+                          <% } %>
+                            <% if (iconData.status) { %>
+                              <div class="position-absolute" style="top: 8px; right: 8px;">
+                                <i class="material-icons-outlined text-success"
+                                  style="font-size: 16px;">check_circle</i>
+                              </div>
+                              <% } %>
+                                <div
+                                  class="position-relative rounded d-flex align-items-center justify-content-center mt-1 p-3 mx-auto mb-3"
+                                  style="height: 60px; width: 60px; background-color: <%= iconData.backgroundColor %>;">
+                                  <i class="<%= iconData.iconClass %>"
+                                    style="font-size: 32px; color: <%= iconData.textColor %>;">
+                                    <%= iconData.icon %>
+                                  </i>
+                                </div>
+                                <h6 class="fw-semibold text-dark mb-1">
+                                  <%= iconData.name %>
+                                </h6>
+                                <small class="text-muted d-block">Class: <%= iconData.icon %></small>
+                                <div class="mt-2">
+                                  <div class="d-flex flex-column gap-1">
+                                    <span class="badge bg-light text-dark small">Text: <%= iconData.textColor %></span>
+                                    <span class="badge bg-light text-dark small">BG: <%= iconData.backgroundColor %>
+                                    </span>
+                                  </div>
+                                </div>
+                      </div>
+
+                      <!-- Back -->
+                      <div class="flip-card-back text-center p-2 rounded border"
+                        style="background: linear-gradient(135deg, <%= iconData.backgroundColor %>, <%= iconData.textColor %>20);">
+                        <div class="position-absolute" style="top: 16px; left: 50%; transform: translateX(-50%);">
+                          <i class="material-icons-outlined" style="font-size: 32px; color: #666;">info</i>
+                        </div>
+                        <div class="position-absolute" style="top: 60px; left: 50%; transform: translateX(-50%);">
+                          <h6 class="fw-bold text-dark mb-0">Notes</h6>
+                        </div>
+                        <div class="text-center" style="margin-top: 90px;">
+                          <p class="small text-dark mb-0" style="line-height: 1.4;">
+                            <% if (iconData.note) { %>
+                              <%= iconData.note %>
+                                <% } else { %>No notes available for this icon.<% } %>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }); %>
+            </div>
+
+            <% if (icons.length===0) { %>
+              <div class="text-center py-5">
+                <div class="text-muted">
+                  <i class="material-icons-outlined" style="font-size: 48px;">info</i>
+                  <h5 class="mt-3">No icons configured</h5>
+                  <p>Please check the configuration file to add icons.</p>
+                </div>
+              </div>
+              <% } %>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
+          <div class="mb-3">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-2 bg-light rounded">
+              <i class="material-icons-outlined text-success" style="font-size: 16px;">check_circle</i>
+              <small class="text-dark fw-medium">Items are presently correct</small>
+            </div>
+          </div>
+          <small class="text-muted">
+            Icons are loaded from <code>config/icons.json</code> configuration file
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function flipCard(card) {
+      // First, instantly flip back any other currently flipped cards without animation
+      const allFlippedCards = document.querySelectorAll('.flip-card.flipped');
+      allFlippedCards.forEach(flippedCard => {
+        if (flippedCard !== card) {
+          const inner = flippedCard.querySelector('.flip-card-inner');
+          inner.style.transition = 'none';
+          flippedCard.classList.remove('flipped');
+          inner.offsetHeight; // Force reflow
+          inner.style.transition = '';
+        }
+      });
+
+      // Then toggle the clicked card with animation
+      card.classList.toggle('flipped');
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "content-type-icons",
+  "version": "1.0.0",
+  "description": "A simple Node.js app that renders Material Icons based on configuration",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ejs": "^3.1.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "material-icons",
+    "bootstrap"
+  ],
+  "author": "",
+  "license": "MIT"
+}
