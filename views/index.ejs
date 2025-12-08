@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/public/images/flask.png">
   <title>
     <%= title %>
   </title>
@@ -14,6 +15,9 @@
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+
+  <!-- Material Design Icons (Pictogrammers) -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="/public/styles.css" rel="stylesheet">
@@ -45,14 +49,15 @@
             <div class="row g-4">
               <% icons.forEach(function(iconData) { %>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <div class="flip-card" onclick="<%= iconData.note ? 'flipCard(this)' : '' %>"
-                    style="cursor: <%= iconData.note ? 'pointer' : 'default' %>;">
+                  <div class="flip-card" onclick="handleCardClick(this, event)">
                     <div class="flip-card-inner">
                       <!-- Front -->
                       <div class="flip-card-front text-center p-3 rounded bg-white border position-relative">
                         <% if (iconData.note) { %>
-                          <div class="position-absolute" style="top: 8px; left: 8px;" title="Click to view notes">
-                            <i class="material-icons-outlined text-info" style="font-size: 14px;">info</i>
+                          <div class="position-absolute info-icon" style="top: 8px; left: 8px; cursor: pointer;"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+                            data-bs-title="Click to view notes" onclick="flipCardFromIcon(this, event)">
+                            <i class="material-icons-outlined text-primary" style="font-size: 14px;">info</i>
                           </div>
                           <% } %>
                             <% if (iconData.status) { %>
@@ -61,20 +66,48 @@
                                   style="font-size: 16px;">check_circle</i>
                               </div>
                               <% } %>
-                                <div
-                                  class="position-relative rounded d-flex align-items-center justify-content-center mt-1 p-3 mx-auto mb-3"
-                                  style="height: 60px; width: 60px; background-color: <%= iconData.backgroundColor %>;">
-                                  <i class="<%= iconData.iconClass %>"
-                                    style="font-size: 32px; color: <%= iconData.textColor %>;">
-                                    <%= iconData.icon %>
-                                  </i>
-                                </div>
-                                <h6 class="fw-semibold text-dark mb-1">
+                                <h6 class="fw-semibold text-dark mb-3 text-center">
                                   <%= iconData.name %>
                                 </h6>
-                                <small class="text-muted d-block">Class: <%= iconData.icon %></small>
+                                <div class="mt-1 mb-3 px-3">
+                                  <!-- Google Material Icon Row -->
+                                  <div class="d-flex align-items-center gap-2 mb-2">
+                                    <a href="https://fonts.google.com/icons?selected=Material+Icons+Outlined:<%= iconData.icon %>:FILL@0;wght@400;GRAD@0;opsz@24"
+                                      target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                                      <div
+                                        class="position-relative rounded d-flex align-items-center justify-content-center p-2"
+                                        style="height: 40px; width: 40px; background-color: <%= iconData.backgroundColor %>;"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+                                        data-bs-title="Click to view on Google Fonts:<br><%= iconData.icon %>">
+                                        <i class="material-icons-outlined"
+                                          style="font-size: 20px; color: <%= iconData.textColor %>;">
+                                          <%= iconData.icon %>
+                                        </i>
+                                      </div>
+                                    </a>
+                                    <small class="text-muted">Google Material</small>
+                                  </div>
+                                  <!-- Pictogrammers MDI Row -->
+                                  <div class="d-flex align-items-center gap-2">
+                                    <a href="https://pictogrammers.com/library/mdi/icon/<%= iconData.iconClass.replace('mdi-', '') %>/"
+                                      target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                                      <div
+                                        class="position-relative rounded d-flex align-items-center justify-content-center p-2"
+                                        style="height: 40px; width: 40px; background-color: <%= iconData.backgroundColor %>;"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+                                        data-bs-title="Click to view on Pictogrammers:<br><%= iconData.iconClass %>">
+                                        <i class="mdi <%= iconData.iconClass %>"
+                                          style="font-size: 20px; color: <%= iconData.textColor %>;">
+                                        </i>
+                                      </div>
+                                    </a>
+                                    <small class="text-muted">Pictogrammers</small>
+                                  </div>
+                                </div>
+                                <!-- <small class="text-muted d-block">Google Material: `<%= iconData.icon %>`</small>
+                                <small class="text-muted d-block">MDI Class: `<%= iconData.iconClass %>`</small> -->
                                 <div class="mt-2">
-                                  <div class="d-flex flex-column gap-1">
+                                  <div class="d-flex flex-column gap-3">
                                     <span class="badge bg-light text-dark small">Color: <%= iconData.textColor %></span>
                                     <span class="badge bg-light text-dark small">Bg Color: <%= iconData.backgroundColor
                                         %>
@@ -128,6 +161,13 @@
           <small class="text-muted">
             Icons are loaded from <code>config/icons.json</code> configuration file
           </small>
+          <div>
+            <small class="text-muted">
+              Engineering icons sourced from <a href="https://pictogrammers.com/library/mdi/" target="_blank"
+                rel="noopener noreferrer">
+                Material Icons
+            </small>
+          </div>
         </div>
       </div>
     </div>
@@ -137,7 +177,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    function flipCard(card) {
+    function flipCardFromIcon(iconElement, event) {
+      event.stopPropagation();
+      const card = iconElement.closest('.flip-card');
+
       // First, instantly flip back any other currently flipped cards without animation
       const allFlippedCards = document.querySelectorAll('.flip-card.flipped');
       allFlippedCards.forEach(flippedCard => {
@@ -150,9 +193,26 @@
         }
       });
 
-      // Then toggle the clicked card with animation
-      card.classList.toggle('flipped');
+      // Flip the card to show the back
+      card.classList.add('flipped');
     }
+
+    function handleCardClick(card, event) {
+      // Only flip back if the card is currently flipped
+      if (card.classList.contains('flipped')) {
+        card.classList.remove('flipped');
+      }
+    }
+
+    // Initialize Bootstrap tooltips with HTML enabled
+    document.addEventListener('DOMContentLoaded', function () {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+          html: true
+        });
+      });
+    });
   </script>
 </body>
 
